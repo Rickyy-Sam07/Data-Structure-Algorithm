@@ -1,0 +1,55 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+int convertToMinutes(char* time) {
+    int hours, minutes;
+    sscanf(time, "%d:%d", &hours, &minutes);  // Extract hours and minutes
+    return hours * 60 + minutes;  // Convert to total minutes
+}
+
+int findMinDifference(char** timePoints, int timePointsSize) {
+    int minDiff = 1440;  // 1440 minutes = 24 hours
+    int value[timePointsSize];
+    
+    // Convert all time points to minutes
+    for (int i = 0; i < timePointsSize; i++) {
+        value[i] = convertToMinutes(timePoints[i]);
+    }
+
+    // Compare each pair of time points
+    for (int i = 0; i < timePointsSize; i++) {
+        for (int j = i + 1; j < timePointsSize; j++) {
+            int diff = abs(value[i] - value[j]);  // Find absolute difference
+            // Since the clock is circular, take the minimum of the two possible differences
+            diff = diff > 720 ? 1440 - diff : diff;
+            if (diff < minDiff) {
+                minDiff = diff;
+            }
+        }
+    }
+
+    return minDiff;
+}
+
+int main() {
+    char* timePoints[] = {"23:59", "00:00"};
+    int timePointsSize = 2;
+    
+    int result = findMinDifference(timePoints, timePointsSize);
+    printf("Minimum difference: %d minutes\n", result);
+
+    return 0;
+}
+
+
+
+
+EXPLAINATION:
+convertToMinutes: Converts each time string like "23:59" to minutes since midnight. For example, "23:59" becomes 1439 minutes.
+
+Brute force comparison:
+
+We loop through every pair of time points (i, j) and compute the absolute difference in minutes.
+Since the clock is circular, if the difference is greater than 720 minutes (12 hours), we subtract it from 1440 to get the shorter path.
+Return minimum difference: Keep track of the smallest difference between any pair.

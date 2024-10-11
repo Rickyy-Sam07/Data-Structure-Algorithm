@@ -1,0 +1,193 @@
+1. Data Structures
+HashEntry: This structure represents an entry in a hash map, storing:
+word: A dynamically allocated string for the word.
+count: An integer to track how many times the word occurs.
+next: A pointer to the next HashEntry to handle collisions using chaining (linked lists).
+c
+Copy code
+typedef struct HashEntry {
+    char* word;
+    int count;
+    struct HashEntry* next;
+} HashEntry;
+HashMap: This structure represents the hash map. It stores:
+table: An array of pointers to HashEntry (representing the buckets).
+size: The number of buckets in the hash map.
+c
+Copy code
+typedef struct {
+    HashEntry** table;
+    int size;
+} HashMap;
+2. Hash Function
+This function generates a hash value for a given word using the DJB2 hashing algorithm. The hash value is computed based on the characters in the word, and the result is taken modulo the hash map size to find the bucket index.
+
+c
+Copy code
+unsigned int hash(char* str, int size) {
+    unsigned long hash = 5381;
+    int c;
+    while ((c = *str++)) {
+        hash = ((hash << 5) + hash) + c;
+    }
+    return hash % size;
+}
+3. Creating a Hash Map
+The function dynamically allocates memory for the hash map and initializes the table with NULL pointers using calloc.
+
+c
+Copy code
+HashMap* createHashMap(int size) {
+    HashMap* map = (HashMap*)malloc(sizeof(HashMap));
+    map->table = (HashEntry**)calloc(size, sizeof(HashEntry*));
+    map->size = size;
+    return map;
+}
+4. Adding a Word to the Hash Map
+This function checks if the word is already in the hash map. If it is, it increments the word's count. If not, it creates a new HashEntry, adds it to the beginning of the linked list (if there is a collision), and sets the count to 1.
+c
+Copy code
+void addWord(HashMap* map, char* word) {
+    unsigned int index = hash(word, map->size);
+    HashEntry* entry = map->table[index];
+    while (entry != NULL) {
+        if (strcmp(entry->word, word) == 0) {
+            entry->count++;
+            return;
+        }
+        entry = entry->next;
+    }
+    entry = (HashEntry*)malloc(sizeof(HashEntry));
+    entry->word = strdup(word);
+    entry->count = 1;
+    entry->next = map->table[index];
+    map->table[index] = entry;
+}
+5. Getting the Word Count
+This function retrieves the count of a given word from the hash map. If the word exists, it returns the count; otherwise, it returns 0.
+
+c
+Copy code
+int getWordCount(HashMap* map, char* word) {
+    unsigned int index = hash(word, map->size);
+    HashEntry* entry = map->table[index];
+    while (entry != NULL) {
+        if (strcmp(entry->word, word) == 0) {
+            return entry->count;
+        }
+        entry = entry->next;
+    }
+    return 0;
+}
+6. Freeing the Hash Map
+This function deallocates all the memory used by the hash map, including each HashEntry and the table.
+
+c
+Copy code
+void freeHashMap(HashMap* map) {
+    for (int i = 0; i < map->size; i++) {
+        HashEntry* entry = map->table[i];
+        while (entry != NULL) {
+            HashEntry* temp = entry;
+            entry = entry->next;
+            free(temp->word);
+            free(temp);
+        }
+    }
+    free(map->table);
+    free(map);
+}
+7. Tokenizing Sentences
+This function splits a sentence into words using strtok and adds each word to the hash map.
+
+c
+Copy code
+void tokenizeAndAddWords(char* sentence, HashMap* map) {
+    char* token = strtok(sentence, " ");
+    while (token != NULL) {
+        addWord(map, token);
+        token = strtok(NULL, " ");
+    }
+}
+8. Finding Uncommon Words
+The uncommonFromSentences function compares two sentences and returns the uncommon words between them.
+
+Steps:
+Create Two Hash Maps: One for each sentence.
+Tokenize and Add Words: Split both sentences into words and add them to their respective hash maps.
+Find Uncommon Words:
+For each word in s1, if it appears only once in s1 and not in s2, add it to the result array.
+For each word in s2, if it appears only once in s2 and not in s1, add it to the result array.
+Return Result: Store the number of uncommon words in returnSize.
+c
+Copy code
+char** uncommonFromSentences(char* s1, char* s2, int* returnSize) {
+    HashMap* map1 = createHashMap(1000);
+    HashMap* map2 = createHashMap(1000);
+
+    char* s1_copy = strdup(s1);
+    char* s2_copy = strdup(s2);
+
+    tokenizeAndAddWords(s1_copy, map1);
+    tokenizeAndAddWords(s2_copy, map2);
+
+    free(s1_copy);
+    free(s2_copy);
+
+    char** result = (char**)malloc(1000 * sizeof(char*));
+    int resultIndex = 0;
+
+    char* token = strtok(s1, " ");
+    while (token != NULL) {
+        if (getWordCount(map1, token) == 1 && getWordCount(map2, token) == 0) {
+            result[resultIndex++] = strdup(token);
+        }
+        token = strtok(NULL, " ");
+    }
+
+    token = strtok(s2, " ");
+    while (token != NULL) {
+        if (getWordCount(map2, token) == 1 && getWordCount(map1, token) == 0) {
+            result[resultIndex++] = strdup(token);
+        }
+        token = strtok(NULL, " ");
+    }
+
+    *returnSize = resultIndex;
+
+    freeHashMap(map1);
+    freeHashMap(map2);
+
+    return result;
+}
+9. Main Function (Testing)
+The main function tests the program with two example sentences (s1 and s2).
+
+Steps:
+Call uncommonFromSentences to find the uncommon words between s1 and s2.
+Print the uncommon words.
+Free any dynamically allocated memory.
+c
+Copy code
+int main() {
+    char s1[] = "this apple is sweet";
+    char s2[] = "this apple is sour";
+    int returnSize;
+
+    char** uncommonWords = uncommonFromSentences(s1, s2, &returnSize);
+
+    printf("Uncommon Words:\n");
+    for (int i = 0; i < returnSize; i++) {
+        printf("%s\n", uncommonWords[i]);
+        free(uncommonWords[i]);  // Free each word
+    }
+    free(uncommonWords);  // Free the result array
+
+    return 0;
+}
+
+
+
+
+
+

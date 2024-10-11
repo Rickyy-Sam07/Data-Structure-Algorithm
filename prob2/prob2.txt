@@ -1,0 +1,47 @@
+Thanks for clarifying! Now it seems like you're trying to find the longest subarray where the bitwise AND of all elements in the subarray is maximized, and you're returning the length of that subarray.
+
+Plan:
+We need to compute the maximum bitwise AND value from the given array.
+Then, we need to find the longest subarray where the bitwise AND of all elements equals that maximum value.
+Here's how to approach it:
+
+First, calculate the maximum value in the array, because any subarray with the highest bitwise AND will have to consist of this maximum value.
+Next, find the longest contiguous subarray consisting of only that maximum value.
+Here’s the code for that:
+
+c
+Copy code
+int longestSubarray(int* nums, int numsSize) {
+    // Step 1: Find the maximum value in the array
+    int maxVal = nums[0];
+    for (int i = 1; i < numsSize; i++) {
+        if (nums[i] > maxVal) {
+            maxVal = nums[i];
+        }
+    }
+
+    // Step 2: Find the longest subarray where all elements are equal to maxVal
+    int maxLength = 0;
+    int currentLength = 0;
+    for (int i = 0; i < numsSize; i++) {
+        if (nums[i] == maxVal) {
+            currentLength++;
+        } else {
+            if (currentLength > maxLength) {
+                maxLength = currentLength;
+            }
+            currentLength = 0; // Reset for the next sequence
+        }
+    }
+
+    // Handle the case where the longest subarray ends at the last element
+    if (currentLength > maxLength) {
+        maxLength = currentLength;
+    }
+
+    return maxLength;
+}
+Explanation:
+Find Maximum Value: The first loop finds the maximum value in the array.
+Find Longest Subarray with Maximum Value: The second loop iterates through the array and counts the length of contiguous subarrays where all elements are equal to maxVal. If the sequence breaks (i.e., an element not equal to maxVal is found), it compares the current length with the maximum length found so far and resets the length counter.
+Final Check: After the loop, we handle the case where the longest subarray ends at the last element of the array.
