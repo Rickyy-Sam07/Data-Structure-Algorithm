@@ -1,0 +1,161 @@
+Problem Breakdown
+Input:
+
+A string allowed containing distinct characters (like "ab" or "abc").
+An array of strings words, where each string consists of characters.
+Output:
+
+Return the number of strings in the words array where all characters exist in the allowed string.
+Example 1:
+allowed = "ab"
+
+words = ["ad", "bd", "aaab", "baa", "badab"]
+
+We need to check each word in words:
+
+"ad" contains 'd', which is not allowed (not in "ab"), so it’s not consistent.
+"bd" contains 'd', so it’s not consistent.
+"aaab" contains only 'a' and 'b', which are both in the allowed set, so it’s consistent.
+"baa" contains only 'a' and 'b', so it’s consistent.
+"badab" contains 'd', which is not in the allowed set, so it’s not consistent.
+Output: 2 (only "aaab" and "baa" are consistent).
+
+Code Walkthrough:
+
+#include <stdio.h>
+#include <stdbool.h>
+#include <string.h>
+
+bool isConsistent(char *word, bool allowedChars[]) {
+    for (int i = 0; word[i] != '\0'; i++) {
+        if (!allowedChars[word[i] - 'a']) {
+            return false; // Character not in allowed set
+        }
+    }
+    return true;
+}
+
+int countConsistentStrings(char *allowed, char *words[], int wordsSize) {
+    bool allowedChars[26] = {false}; // To mark allowed characters
+
+    // Mark the characters in the allowed string
+    for (int i = 0; allowed[i] != '\0'; i++) {
+        allowedChars[allowed[i] - 'a'] = true;
+    }
+
+    int count = 0;
+    // Check each word if it's consistent
+    for (int i = 0; i < wordsSize; i++) {
+        if (isConsistent(words[i], allowedChars)) {
+            count++;
+        }
+    }
+
+    return count;
+}
+
+int main() {
+    // Example 1
+    char *allowed1 = "ab";
+    char *words1[] = {"ad", "bd", "aaab", "baa", "badab"};
+    int wordsSize1 = sizeof(words1) / sizeof(words1[0]);
+    printf("Output: %d\n", countConsistentStrings(allowed1, words1, wordsSize1)); // Output: 2
+
+    return 0;
+}
+Step-by-Step Explanation:
+Main function:
+
+
+int main() {
+    char *allowed1 = "ab";
+    char *words1[] = {"ad", "bd", "aaab", "baa", "badab"};
+    int wordsSize1 = sizeof(words1) / sizeof(words1[0]);
+    printf("Output: %d\n", countConsistentStrings(allowed1, words1, wordsSize1)); // Output: 2
+}
+We define the allowed characters (allowed = "ab") and an array of words (words = ["ad", "bd", "aaab", "baa", "badab"]).
+wordsSize1 is calculated by dividing the size of the array by the size of an element, which gives the number of elements (5 in this case).
+The countConsistentStrings function is called to process the input and the result is printed.
+countConsistentStrings function:
+
+
+int countConsistentStrings(char *allowed, char *words[], int wordsSize) {
+    bool allowedChars[26] = {false}; // To mark allowed characters
+
+    // Mark the characters in the allowed string
+    for (int i = 0; allowed[i] != '\0'; i++) {
+        allowedChars[allowed[i] - 'a'] = true;
+    }
+
+    int count = 0;
+    // Check each word if it's consistent
+    for (int i = 0; i < wordsSize; i++) {
+        if (isConsistent(words[i], allowedChars)) {
+            count++;
+        }
+    }
+
+    return count;
+}
+allowedChars[26]: This boolean array is used to track which characters are allowed. It's initialized with false for all 26 letters (a to z).
+Marking allowed characters: We loop through the allowed string and mark the corresponding indexes in the allowedChars array as true. For example, for "ab", the indices of 'a' (0) and 'b' (1) will be set to true.
+Counting consistent words: We loop through each word in the words array, and for each word, we call the isConsistent function. If a word is consistent, we increase the count.
+isConsistent function:
+
+
+bool isConsistent(char *word, bool allowedChars[]) {
+    for (int i = 0; word[i] != '\0'; i++) {
+        if (!allowedChars[word[i] - 'a']) {
+            return false; // Character not in allowed set
+        }
+    }
+    return true;
+}
+This function checks if a word is consistent by iterating through its characters. For each character, it checks whether it’s present in the allowedChars array.
+If any character is not allowed, the function returns false, meaning the word is not consistent.
+If all characters are allowed, it returns true, meaning the word is consistent.
+Execution for Example 1:
+Allowed string: "ab"
+Words array: ["ad", "bd", "aaab", "baa", "badab"]
+For "ad": 'd' is not in "ab", so it's not consistent.
+For "bd": 'd' is not in "ab", so it's not consistent.
+For "aaab": All characters ('a' and 'b') are in "ab", so it's consistent.
+For "baa": All characters ('b' and 'a') are in "ab", so it's consistent.
+For "badab": 'd' is not in "ab", so it's not consistent.
+Consistent words: "aaab", "baa"
+Output: 2
+Final Output for All Examples:
+Example 1: Output: 2
+Example 2: Output: 7
+Example 3: Output: 4 
+
+In the line allowedChars[allowed[i] - 'a'] = true;, the - 'a' part is used to calculate the index in the allowedChars array that corresponds to the letter being processed. Here's a detailed breakdown of why we use - 'a':
+
+Understanding the Expression allowed[i] - 'a':
+Character ASCII Values:
+In C, characters are represented internally by their ASCII values. For example:
+The ASCII value of 'a' is 97.
+The ASCII value of 'b' is 98.
+The ASCII value of 'c' is 99, and so on.
+Purpose of - 'a':
+When you subtract 'a' from another lowercase character (like 'b' or 'c'), you are normalizing the character's position in the alphabet to a zero-based index.
+For example:
+'a' - 'a' = 97 - 97 = 0
+'b' - 'a' = 98 - 97 = 1
+'c' - 'a' = 99 - 97 = 2
+This way, the characters 'a' through 'z' map to the indices 0 through 25, which can be used to reference positions in the allowedChars[26] array.
+Example:
+If allowed = "ab", you want to mark that 'a' and 'b' are allowed. Using allowed[i] - 'a', you convert:
+
+'a' - 'a' = 0 (This marks index 0 in allowedChars as true, corresponding to 'a').
+'b' - 'a' = 1 (This marks index 1 in allowedChars as true, corresponding to 'b').
+This way, the array allowedChars[26] becomes a boolean representation of which characters are allowed, with each index representing a letter from 'a' to 'z'.
+
+Visualization of allowedChars Array:
+For allowed = "ab", after processing, the allowedChars array would look something like this (only showing the first few values for clarity):
+
+Index (0 to 25)	0	1	2	3	4	...
+Character	'a'	'b'	'c'	'd'	'e'	...
+Value	true	true	false	false	false	...
+So, using allowed[i] - 'a' allows us to efficiently mark which characters are allowed and later check for consistency in the words array.
+
