@@ -1,0 +1,21 @@
+Key Points:
+res: This variable keeps track of the total number of steps required to move all '1's to the left of all '0's.
+ones: This variable counts how many '1's have been encountered as we iterate through the string s.
+Loop:
+For each character i in the string s:
+If the character is '1', we increase the ones count.
+If the character is '0', it means that all the '1's seen before this '0' would need to "move" past this '0'. Therefore, the result res is incremented by the number of '1's we've counted so far (ones).
+Example:
+Consider the string "110010":
+
+Initial state: res = 0, ones = 0
+Process each character:
+'1' → Increment ones to 1.
+'1' → Increment ones to 2.
+'0' → Add ones (2) to res, making res = 2.
+'0' → Add ones (2) to res, making res = 4.
+'1' → Increment ones to 3.
+'0' → Add ones (3) to res, making res = 7.
+So, the minimum number of moves required is 7.
+
+This approach is efficient because it avoids the need for directly rearranging the characters, and instead calculates the total number of moves based on counting.
