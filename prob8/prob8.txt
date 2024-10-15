@@ -1,0 +1,82 @@
+Let's walk through the example input arr = [40, 32, 10, 20, 10] step by step, following the logic of your arrayRankTransform function.
+
+Step 1: Sort the Array
+We first sort the input array to determine the rank of each element.
+
+Input array: [40, 32, 10, 20, 10]
+Sorted array: [10, 10, 20, 32, 40]
+Step 2: Create a Rank Dictionary
+We now create a dictionary to map each unique element to its rank. We start with count = 1 and assign ranks based on the sorted array.
+
+Start with an empty dictionary: hmp = {}
+Loop through the sorted array [10, 10, 20, 32, 40]:
+First 10: Since 10 is not in hmp, we assign it rank 1: hmp = {10: 1}. Increment count to 2.
+Second 10: It's already in hmp, so we skip it.
+20: Since 20 is not in hmp, we assign it rank 2: hmp = {10: 1, 20: 2}. Increment count to 3.
+32: Since 32 is not in hmp, we assign it rank 3: hmp = {10: 1, 20: 2, 32: 3}. Increment count to 4.
+40: Since 40 is not in hmp, we assign it rank 4: hmp = {10: 1, 20: 2, 32: 3, 40: 4}. Increment count to 5.
+At the end of this step, the dictionary hmp is:
+
+
+{10: 1, 20: 2, 32: 3, 40: 4}
+Step 3: Build the Result Array
+Now, we go through the original array and replace each element with its corresponding rank from the dictionary hmp.
+
+Original array: [40, 32, 10, 20, 10]
+Replace each element:
+40: Its rank is 4, so the result becomes [4].
+32: Its rank is 3, so the result becomes [4, 3].
+10: Its rank is 1, so the result becomes [4, 3, 1].
+20: Its rank is 2, so the result becomes [4, 3, 1, 2].
+10: Its rank is 1, so the result becomes [4, 3, 1, 2, 1].
+Final Output:
+The rank-transformed array is:
+[4, 3, 1, 2, 1]
+
+
+
+
+for loop : 
+  This part of your code is responsible for assigning ranks to the elements of the sorted array. Here's a breakdown of what's happening:
+
+Code:
+
+for i in sorted_arr:
+    # If the element is not already in the dictionary, assign it a rank
+    if i not in hmp:
+        hmp[i] = count
+        count += 1
+Explanation:
+Looping through sorted_arr:
+
+This for loop goes through each element i in the sorted version of the input array arr. The sorted array allows us to determine the rank of each element based on its value.
+Checking if the Element is in the Dictionary:
+
+if i not in hmp: This line checks if the current element i is already present in the dictionary hmp.
+If the element i is not in hmp, that means it hasn't been assigned a rank yet (because the dictionary only stores unique elements with their respective ranks).
+Assigning the Rank:
+
+hmp[i] = count: If the element i is not in hmp, it gets assigned a rank (stored in count). This is where the element is added to the dictionary with its corresponding rank.
+The rank starts at 1 (initial value of count), and then each unique element gets the next available rank as we increment count after each assignment.
+Incrementing the Rank:
+
+count += 1: After assigning the rank to the current element i, we increment count by 1. This ensures that the next unique element in the sorted array will get the next higher rank.
+Why This Works:
+The sorted array sorted_arr ensures that the elements are processed in increasing order, allowing us to assign ranks starting from 1 and incrementing for each new unique element.
+The check if i not in hmp ensures that only unique elements get a rank. If an element appears multiple times in the sorted array, it will only be assigned a rank once, and the same rank will be reused when that element appears in the original array.
+Example Walkthrough:
+For arr = [40, 32, 10, 20, 10]:
+
+Sorted Array: sorted_arr = [10, 10, 20, 32, 40]
+As we loop through sorted_arr:
+First 10: hmp = {10: 1} and count = 2
+Second 10: It's already in hmp, so we skip it.
+20: hmp = {10: 1, 20: 2} and count = 3
+32: hmp = {10: 1, 20: 2, 32: 3} and count = 4
+40: hmp = {10: 1, 20: 2, 32: 3, 40: 4} and count = 5
+Thus, each unique element gets a rank corresponding to its position in the sorted array, and this rank is stored in the dictionary hmp.
+
+Key Takeaways:
+The dictionary hmp stores the ranks of unique elements.
+The sorted array ensures that the smallest elements get the lowest ranks.
+count is incremented after assigning each rank, so the next unique element receives the next higher rank.
