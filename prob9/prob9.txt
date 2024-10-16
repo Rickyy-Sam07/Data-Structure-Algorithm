@@ -1,0 +1,96 @@
+Problem Recap:
+You want to generate the longest possible "happy" string using given counts of 'a', 'b', and 'c' such that:
+
+The string doesn't contain any substring of "aaa", "bbb", or "ccc".
+The counts of 'a', 'b', and 'c' should not exceed the given limits.
+Solution Overview:
+We use a greedy approach to always add the character with the highest count (either 'a', 'b', or 'c') to the string, but we need to ensure that no character is repeated three times consecutively. If a character reaches two consecutive uses, we switch to the next highest available character.
+
+Detailed Explanation:
+1. Class Structure:
+python
+Copy code
+class Solution:
+    def longestDiverseString(self, a: int, b: int, c: int) -> str:
+You define a Solution class with a method longestDiverseString that takes three integer arguments: a, b, and c. These represent the maximum number of 'a', 'b', and 'c' characters you can use.
+2. Result List:
+python
+Copy code
+result = []
+This list result is used to store the characters as you build the string step by step.
+3. Helper Function (get_next_letter):
+python
+Copy code
+def get_next_letter():
+This is a helper function within longestDiverseString. Its role is to determine the next valid character to add to the result, based on the following rules:
+It avoids repeating the same character three times in a row.
+It chooses the character that has the highest remaining count (either 'a', 'b', or 'c').
+4. Avoiding Triple Repeats:
+python
+Copy code
+if len(result) >= 2 and result[-1] == result[-2]:
+This line checks if the last two characters in the result list are the same. If they are, the next character should not be the same, because that would violate the "no triple repeats" rule.
+
+If the last two characters are 'a', it checks whether 'b' or 'c' is available, and similarly for 'b' and 'c'.
+
+5. Choosing the Most Frequent Character:
+python
+Copy code
+if a >= b and a >= c and a > 0:
+    return 'a'
+elif b >= a and b >= c and b > 0:
+    return 'b'
+elif c >= a and c >= b and c > 0:
+    return 'c'
+If there are no triple repeats, the function picks the character with the highest remaining count. This ensures that you are using as many characters as possible.
+
+The function compares the values of a, b, and c, and returns the character with the highest count.
+
+6. Stopping Condition:
+python
+Copy code
+return ''
+If none of the characters can be added (because all counts are zero or it would cause triple repeats), the function returns an empty string '', signaling that no more valid characters can be added.
+7. Main Loop:
+python
+Copy code
+while True:
+    letter = get_next_letter()
+    if letter == '':
+        break  # No valid letter to add
+    result.append(letter)
+    if letter == 'a':
+        a -= 1
+    elif letter == 'b':
+        b -= 1
+    elif letter == 'c':
+        c -= 1
+In this loop, the code keeps calling get_next_letter() to get the next character to append to result.
+If get_next_letter() returns an empty string '', the loop breaks, as no more valid characters can be added.
+Each time a letter is added, the corresponding count (a, b, or c) is reduced by 1.
+8. Returning the Result:
+python
+Copy code
+return ''.join(result)
+After the loop finishes, the list result is converted into a string using ''.join(result), and the final string is returned.
+Example Walkthrough:
+Example 1:
+Input: a = 1, b = 1, c = 7
+
+Start with the character that has the highest count, which is 'c'.
+Append 'c' twice: "cc".
+Now, you can't add another 'c' because it would violate the triple-repeat rule, so you add either 'a' or 'b'. Let's say 'a': "cca".
+Now add 'c' again: "ccac".
+Repeat this process until you exhaust the counts. Possible output: "ccaccbcc".
+Example 2:
+Input: a = 7, b = 1, c = 0
+
+Start by adding 'a', and append it twice: "aa".
+You can't add another 'a', so append 'b': "aab".
+Now continue adding 'a' again: "aabaa".
+Possible output: "aabaa".
+Key Points:
+Greedy Approach: The algorithm always tries to use the most frequent character while respecting the "no triple repeats" rule.
+Count Management: After each character is added, the corresponding count is decreased.
+Simple Logic: Although the algorithm is not the most efficient (there are faster sorting-based methods), it is straightforward and easy to understand.
+This brute-force approach works well because the problem constraints are small enough (0 <= a, b, c <= 100) that this solution can run efficiently within the limits.
