@@ -1,0 +1,57 @@
+1. Function Definition
+
+def maximumSwap(num: int) -> int:
+The function takes a single argument num, which is an integer, and returns the maximum possible integer you can get by swapping at most two digits.
+
+2. Convert the number to a list of digits
+
+num_str = list(str(num))
+max_num = num
+str(num) converts the integer into a string. This is necessary because we want to manipulate individual digits of the number.
+list(str(num)) converts the string of digits into a list of characters, making it easier to swap the digits later.
+Example: If num = 2736, num_str becomes ['2', '7', '3', '6'].
+max_num is initialized to num, which means the original number is the maximum at the start.
+
+3. Iterate through all pairs of digits
+
+for i in range(len(num_str)):
+    for j in range(i + 1, len(num_str)):
+The outer loop (with index i) selects the first digit of the pair to swap.
+The inner loop (with index j) selects the second digit of the pair to swap. The inner loop starts at i + 1 to ensure that you don't swap a digit with itself.
+Example: For 2736, the loops will check the pairs (2, 7), (2, 3), (2, 6), (7, 3), (7, 6), and (3, 6).
+
+4. Swap the digits at index i and j
+
+num_str[i], num_str[j] = num_str[j], num_str[i]
+This swaps the two digits at positions i and j in the list num_str.
+Example: If i = 0 and j = 1, swapping digits 2 and 7 changes num_str from ['2', '7', '3', '6'] to ['7', '2', '3', '6'].
+
+5. Convert the list back to a number and compare
+
+swapped_num = int(''.join(num_str))
+max_num = max(max_num, swapped_num)
+After swapping, ''.join(num_str) converts the list back to a string, and int() converts it back to an integer.
+We compare this new swapped number (swapped_num) with the current maximum (max_num). If swapped_num is larger, max_num is updated.
+Example: If num_str is ['7', '2', '3', '6'], swapped_num becomes 7236.
+
+6. Swap the digits back to restore the original order
+
+num_str[i], num_str[j] = num_str[j], num_str[i]
+After each comparison, we swap the digits back to their original positions so that the loops can correctly process the next pair of digits.
+Example: After checking the pair (2, 7), we swap them back to restore num_str to ['2', '7', '3', '6'].
+
+7. Return the maximum number
+
+return max_num
+Once all possible pairs of digits have been checked, the function returns max_num, which holds the maximum possible number obtained by swapping at most two digits.
+Example Walkthrough for num = 2736
+Original number: 2736.
+Try swapping:
+Swap (2, 7) → 7236.
+Swap (2, 3) → 3726.
+Swap (2, 6) → 6732.
+Swap (7, 3) → 2376.
+Swap (7, 6) → 2763.
+Swap (3, 6) → 2763.
+Maximum number after all swaps: 7236.
+This is the desired solution using a brute-force approach!
