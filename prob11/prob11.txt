@@ -1,0 +1,139 @@
+1. Importing the combinations function:
+
+from itertools import combinations
+This imports the combinations function from Python's itertools library. The combinations function allows you to generate all possible combinations (subsets) of a given size from an array. For example, for an array nums = [3, 1], combinations(nums, 1) generates [3], [1], and combinations(nums, 2) generates [3, 1].
+2. Function Definition: countMaxOrSubsets(nums):
+The function is designed to calculate the maximum possible bitwise OR of all non-empty subsets of the given array nums and then count how many subsets achieve that maximum OR.
+
+Step 1: Initial Setup
+
+n = len(nums)  # Get the length of the nums array
+max_or = 0     # Initialize max_or to 0, which will store the maximum OR value
+subsets = []   # This list will store all non-empty subsets
+n holds the number of elements in the input array nums.
+max_or is initialized to 0. It will store the maximum bitwise OR value found during the computation.
+subsets is initialized as an empty list, which will later store all the possible non-empty subsets of nums.
+Step 2: Generate All Non-Empty Subsets
+
+for i in range(1, n + 1):  # Iterate through subset sizes (from 1 to n)
+    for subset in combinations(nums, i):  # Generate all combinations of size i
+        subsets.append(subset)  # Add each subset to the list
+This loop generates all possible subsets of nums using the combinations function.
+range(1, n+1) ensures that you get subsets of size 1 to n. For each size i, the inner loop generates all combinations (subsets) of that size.
+The subsets are then stored in the subsets list.
+Step 3: Find the Maximum OR Value
+
+for subset in subsets:
+    current_or = 0  # Initialize the OR result for the current subset
+    for num in subset:
+        current_or |= num  # Perform the bitwise OR for the current subset
+    max_or = max(max_or, current_or)  # Update the max_or if current_or is higher
+This loop calculates the bitwise OR for each subset.
+current_or starts at 0 for each subset, and the loop applies the |= (bitwise OR) operation to accumulate the OR result for all elements in the subset.
+After computing the OR of the current subset, the maximum OR (max_or) is updated if the current OR is greater than the previously recorded maximum OR.
+Step 4: Count Subsets that Achieve the Maximum OR
+
+count = 0  # Initialize a count variable
+for subset in subsets:
+    current_or = 0  # Initialize the OR result for the current subset
+    for num in subset:
+        current_or |= num  # Perform the bitwise OR for the current subset
+    if current_or == max_or:  # If the OR matches the maximum OR, increase count
+        count += 1
+After determining the maximum OR, this loop counts how many subsets give this maximum OR value.
+For each subset, the OR is recalculated. If the OR of the subset equals the max_or, the count is incremented.
+Step 5: Return the Count
+
+return count  # Return the number of subsets with the maximum OR
+Finally, the function returns the number of subsets that have the maximum OR.
+Example Usage:
+
+print(countMaxOrSubsets([3, 1]))    # Output: 2
+print(countMaxOrSubsets([2, 2, 2])) # Output: 7
+print(countMaxOrSubsets([3, 2, 1, 5])) # Output: 6
+Explanation of Outputs:
+For nums = [3, 1]:
+
+The maximum OR is 3.
+Subsets that give the maximum OR are [3] and [3, 1].
+So, the output is 2.
+For nums = [2, 2, 2]:
+
+All non-empty subsets give an OR of 2.
+There are 
+2
+3
+−
+1
+=
+7
+2 
+3
+ −1=7 non-empty subsets.
+So, the output is 7.
+For nums = [3, 2, 1, 5]:
+
+The maximum OR is 7.
+Subsets that give the maximum OR are [3, 5], [3, 2, 5], [3, 1, 5], [2, 5], [2, 1, 5], and [3, 2, 1, 5].
+So, the output is 6.
+Summary:
+The function first generates all possible non-empty subsets of nums.
+It then calculates the maximum bitwise OR of any subset.
+Finally, it counts how many subsets achieve that maximum OR.
+
+
+
+///bitwise OR ex.////
+Example Walkthrough with nums = [3, 2, 1, 5]:
+Subsets: The non-empty subsets of [3, 2, 1, 5] are:
+
+[3], [2], [1], [5], [3, 2], [3, 1], [3, 5], [2, 1], [2, 5], [1, 5], [3, 2, 1], [3, 2, 5], [3, 1, 5], [2, 1, 5], [3, 2, 1, 5]
+Bitwise OR for each subset:
+
+OR of [3] → 3
+OR of [2] → 2
+OR of [1] → 1
+OR of [5] → 5
+OR of [3, 2] → 3 | 2 = 3
+OR of [3, 1] → 3 | 1 = 3
+OR of [3, 5] → 3 | 5 = 7
+OR of [2, 1] → 2 | 1 = 3
+OR of [2, 5] → 2 | 5 = 7
+OR of [1, 5] → 1 | 5 = 5
+OR of [3, 2, 1] → 3 | 2 | 1 = 3
+OR of [3, 2, 5] → 3 | 2 | 5 = 7
+OR of [3, 1, 5] → 3 | 1 | 5 = 7
+OR of [2, 1, 5] → 2 | 1 | 5 = 7
+OR of [3, 2, 1, 5] → 3 | 2 | 1 | 5 = 7
+Maximum OR: The maximum OR is 7.
+
+Counting Subsets with Maximum OR: The subsets that give an OR of 7 are:
+
+[3, 5], [3, 2, 5], [3, 1, 5], [2, 5], [2, 1, 5], [3, 2, 1, 5]
+So, there are 6 subsets with the maximum OR.
+
+Thus, the output for nums = [3, 2, 1, 5] is 6.
+
+
+
+
+>>>>Example Walkthrough:
+Let’s walk through an example with nums = [3, 1].
+
+Subsets: The non-empty subsets of [3, 1] are:
+
+[3]
+[1]
+[3, 1]
+Bitwise OR for each subset:
+
+OR of [3] → 3 (binary 11)
+OR of [1] → 1 (binary 01)
+OR of [3, 1] → 3 | 1 = 3 (binary 11)
+Maximum OR: The maximum OR is 3.
+
+Count subsets with maximum OR: The subsets that give an OR of 3 are:
+
+[3]
+[3, 1] So, there are 2 subsets with the maximum OR.
+Thus, the output for nums = [3, 1] is 2.

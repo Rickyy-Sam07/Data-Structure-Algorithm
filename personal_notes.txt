@@ -1,3 +1,7 @@
 >>enumerate in python is used generates pairs of index and digit  for example, for num_str = ['2', '7', '3', '6'], it produces:
 
 (0, '2'), (1, '7'), (2, '3'), (3, '6')
+
+
+>> combinations function from Python's itertools library. The combinations function allows you to generate all possible combinations (subsets) of a given size from an array. 
+For example, for an array nums = [3, 1], combinations(nums, 1) generates [3], [1], and combinations(nums, 2) generates [3, 1].
