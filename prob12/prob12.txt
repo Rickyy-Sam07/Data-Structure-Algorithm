@@ -1,0 +1,56 @@
+
+
+1. **Base Case (n = 1)**:
+   ```python
+   if n == 1:
+       return "0"
+   ```
+   If \( n = 1 \), the binary string \( S_1 \) is "0". So, if we are asked to find any bit in \( S_1 \), we return "0" because \( S_1 \) contains only one bit.
+
+2. **Middle Calculation**:
+   ```python
+   mid = 2 ** (n - 1)
+   ```
+   The length of \( S_n \) is \( 2^n - 1 \). The middle of the string \( S_n \) is always at position \( 2^{n-1} \). This value is stored in the variable `mid`.
+
+3. **Middle Element Check**:
+   ```python
+   if k == mid:
+       return "1"
+   ```
+   If the desired k-th bit is exactly at the middle position, the method returns "1" because the middle element in every \( S_n \) string is always "1". This is a property of the recursive generation of the binary strings.
+
+4. **First Half Check**:
+   ```python
+   elif k < mid:
+       return self.findKthBit(n - 1, k)
+   ```
+   If the k-th bit lies in the first half of the string \( S_n \), it corresponds to a bit in the previous string \( S_{n-1} \). The method makes a recursive call to `findKthBit(n-1, k)` to find the k-th bit in the smaller string \( S_{n-1} \). This recursive process continues until it reaches the base case.
+
+5. **Second Half Check**:
+   ```python
+   else:
+       return "0" if self.findKthBit(n - 1, 2 * mid - k) == "1" else "1"
+   ```
+   If the k-th bit lies in the second half of the string \( S_n \), it corresponds to the reverse and inverted part of \( S_{n-1} \). The position \( k \) in the second half can be mapped to a position in the first half by using the formula `2 * mid - k`. This formula reflects how the second half is a reversed version of the first half.
+
+   After mapping, the method checks the bit at the corresponding position in \( S_{n-1} \). If the corresponding bit is "1", it returns "0" (since it's inverted). If the corresponding bit is "0", it returns "1" (again, due to inversion).
+
+### Recursive Flow Example:
+
+Let’s take an example: `findKthBit(3, 1)`
+
+- \( S_3 = "0111001" \), and we want the 1st bit.
+- The middle of \( S_3 \) is at position 4 (`mid = 2^(3-1) = 4`).
+- Since \( k = 1 \) is less than the middle, we look for the 1st bit in \( S_2 \).
+- For \( S_2 = "011" \), the middle is at position 2 (`mid = 2^(2-1) = 2`).
+- Since \( k = 1 \) is less than the middle again, we look for the 1st bit in \( S_1 \).
+- \( S_1 = "0" \), so the 1st bit is "0".
+- The method returns "0".
+
+### Key Points:
+- **Recursive Structure**: The problem is solved recursively by breaking down the string \( S_n \) into smaller strings \( S_{n-1} \).
+- **First and Second Half**: The key insight is that the first half of \( S_n \) is \( S_{n-1} \), while the second half is the reversed and inverted \( S_{n-1} \).
+- **Avoid Full String Generation**: Instead of generating the full string (which would be inefficient), the algorithm uses recursive logic to directly compute the k-th bit.
+
+This approach efficiently computes the k-th bit without constructing the exponentially large string \( S_n \).
