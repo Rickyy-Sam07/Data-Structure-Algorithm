@@ -1,0 +1,142 @@
+Goal of the Code:
+The goal of this code is to evaluate a boolean expression that consists of t (true), f (false), and logical operators like ! (NOT), & (AND), and | (OR). The expression may contain parentheses that group these operators and values together, so we process each part step by step using a stack.
+
+Key Concept:
+We are using a stack to keep track of everything—values (True, False), operators (!, &, |), and parentheses. We process the expression character by character, and when we see a ) (closing parenthesis), we evaluate the sub-expression inside the parentheses.
+
+Breaking Down the Code:
+Class Definition and Function Initialization:
+
+
+
+class Solution:
+    def parseBoolExpr(self, expression: str) -> bool:
+
+
+class Solution: defines a class called Solution.
+def parseBoolExpr(self, expression: str) -> bool: defines a function inside that class. It takes a string expression as input and returns True or False.
+Initialize an Empty Stack:
+
+
+    stack = []
+
+
+We create an empty stack using a list. This will help us keep track of the operators and values (True or False) as we process the expression.
+Loop Through Each Character of the Expression:
+
+
+    for char in expression:
+
+
+This loop goes through each character of the input expression one by one. char will represent the current character.
+Process 't' (True) and 'f' (False):
+
+python
+Copy code
+        if char == 't':
+            stack.append(True)
+        elif char == 'f':
+            stack.append(False)
+
+
+If the character is 't', it means True. So, we push True onto the stack.
+If the character is 'f', it means False. So, we push False onto the stack.
+Process Operators (!, &, |):
+
+python
+Copy code
+        elif char in ('!', '&', '|'):
+            stack.append(char)
+
+
+If the character is an operator (!, &, or |), we push it onto the stack. These operators will be applied later when we encounter a closing parenthesis ).
+Evaluate When We Encounter a Closing Parenthesis ):
+
+python
+Copy code
+        elif char == ')':
+
+
+A closing parenthesis means we've reached the end of a sub-expression. Now, we need to evaluate the part inside the parentheses.
+Extract the Sub-Expression Inside the Parentheses:
+
+python
+Copy code
+            sub_expr = []
+            while stack[-1] != '(':
+                sub_expr.append(stack.pop())
+            stack.pop()  # Remove the '('
+
+
+We create a list sub_expr to collect all the values and operators inside the parentheses.
+We pop elements from the stack until we find an opening parenthesis '('. All the popped elements are added to sub_expr.
+After we've collected everything inside the parentheses, we pop and discard the '('.
+Get the Operator and Apply It:
+
+
+            operator = stack.pop()
+
+
+Now, we pop the operator (!, &, or |) from the stack. This operator will be applied to the values in sub_expr.
+Apply the Operator:
+
+For ! (NOT):
+
+          if operator == '!':
+              stack.append(not sub_expr[0])
+
+
+The NOT operator works on only one value. So, we negate the first (and only) value in sub_expr. If it’s True, it becomes False, and if it’s False, it becomes True.
+We then push the result back onto the stack.
+For & (AND):
+
+
+          elif operator == '&':
+              stack.append(all(sub_expr))
+
+
+
+The AND operator (&) returns True if all the values in sub_expr are True. Otherwise, it returns False.
+We use Python’s all() function to check if all values are True.
+We push the result (either True or False) back onto the stack.
+For | (OR):
+
+
+          elif operator == '|':
+              stack.append(any(sub_expr))
+
+
+
+The OR operator (|) returns True if any of the values in sub_expr is True. If all are False, it returns False.
+We use Python’s any() function to check if at least one value is True.
+We push the result (either True or False) back onto the stack.
+Process Opening Parenthesis (:
+
+
+       elif char == '(':
+           stack.append('(')
+
+
+If we encounter an opening parenthesis '(', we simply push it onto the stack. This marks the start of a sub-expression.
+Return the Final Result:
+
+
+   return stack[0]
+
+After processing the entire expression, the stack will contain just one value—the final result (True or False).
+We return that value as the result of the boolean expression.
+Example Walkthrough:
+Let's take an example expression: "!(&(t,f))"
+
+The characters are processed one by one:
+
+'!': push ! onto the stack → stack = ['!']
+'(': push ( onto the stack → stack = ['!', '(']
+'&': push & onto the stack → stack = ['!', '(', '&']
+'(': push ( onto the stack → stack = ['!', '(', '&', '(']
+'t': push True onto the stack → stack = ['!', '(', '&', '(', True]
+',': skip (ignore commas)
+'f': push False onto the stack → stack = ['!', '(', '&', '(', True, False]
+')': pop and evaluate → stack = ['!', '(', '&', True, False], evaluate AND → result is False, push False onto the stack → stack = ['!', '(', False]
+')': pop and evaluate → stack = ['!', False], evaluate NOT → result is True, push True onto the stack → stack = [True]
+The final result is True.
