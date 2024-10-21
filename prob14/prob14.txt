@@ -1,0 +1,117 @@
+Problem Recap:
+The goal is to split the input string s into as many unique substrings as possible. We need to maximize the number of splits where every substring is distinct (no duplicates).
+
+Code Breakdown:
+python
+Copy code
+def maxUniqueSplit(s: str) -> int:
+This is the main function that will return the maximum number of unique substrings the string can be split into.
+It takes a string s as input.
+python
+Copy code
+    def backtrack(start, seen):
+This is a helper function that uses backtracking to explore different ways to split the string starting from index start.
+start: The current position in the string from where we attempt to split substrings.
+seen: A set that stores all the substrings we have already used, ensuring uniqueness.
+python
+Copy code
+        if start == len(s):
+            return 0
+This is the base case. If start equals the length of the string, it means we've reached the end of the string and can't split further. So we return 0 because no more substrings can be made.
+python
+Copy code
+        max_splits = 0
+We initialize a variable max_splits to keep track of the maximum number of unique splits we can achieve from the current position onwards.
+python
+Copy code
+        for end in range(start + 1, len(s) + 1):
+This loop iterates through all possible ending positions for the substring we want to extract, starting from the current position start. It checks substrings of varying lengths from s[start:end].
+python
+Copy code
+            substring = s[start:end]
+We extract a substring from the current position start up to end. This is one possible way to split the string.
+python
+Copy code
+            if substring not in seen:
+We check if this substring is not already in the set seen, which ensures that all substrings in our split are unique.
+python
+Copy code
+                seen.add(substring)
+If the substring is unique (i.e., not in seen), we add it to the seen set to mark it as used.
+python
+Copy code
+                max_splits = max(max_splits, 1 + backtrack(end, seen))
+We recursively call backtrack(end, seen) to try splitting the rest of the string starting from index end.
+The 1 + backtrack(end, seen) adds 1 to account for the current valid split (substring), and the recursive call finds the maximum splits for the rest of the string.
+max_splits is updated to keep track of the largest number of unique splits found.
+python
+Copy code
+                seen.remove(substring)
+This is the backtracking step. After we've explored the current split, we remove the substring from the seen set to backtrack and try other possible splits (essentially undoing the choice to explore other options).
+python
+Copy code
+        return max_splits
+After trying all possible splits starting from start, we return the maximum number of unique splits we found (max_splits).
+python
+Copy code
+    return backtrack(0, set())
+We start the recursion from index 0 with an empty set seen (since no substrings have been used at the beginning).
+The result returned by backtrack(0, set()) will be the maximum number of unique substrings we can split the string into.
+Key Concepts:
+Backtracking:
+
+This approach allows us to explore all possible ways of splitting the string. If one split doesn't lead to the optimal solution, we backtrack (undo the last step) and try a different split.
+Set seen:
+
+This set keeps track of all the substrings that we've used in the current splitting attempt. By checking the set, we ensure that every split has unique substrings.
+Recursion:
+
+The backtrack function calls itself recursively, each time reducing the string to be split by considering a new starting point (end). The recursion continues until we reach the end of the string.
+
+
+
+EXAMPLE : Consider the string s = "ababccc".
+
+We begin by calling backtrack(0, set()) where 0 is the starting index, and set() is used to track the unique substrings seen so far.
+
+1st Call: backtrack(0, set())
+Start from index 0 and try every possible substring:
+Substring s[0:1] = "a":
+Add "a" to seen.
+Call backtrack(1, {"a"}) to explore the rest of the string.
+2nd Call: backtrack(1, {"a"})
+Start from index 1 and try every possible substring:
+Substring s[1:2] = "b":
+Add "b" to seen.
+Call backtrack(2, {"a", "b"}) to explore the rest of the string.
+3rd Call: backtrack(2, {"a", "b"})
+Start from index 2 and try all possible substrings:
+Substring s[2:3] = "a":
+"a" is already in seen, so skip this.
+Substring s[2:4] = "ab":
+Add "ab" to seen.
+Call backtrack(4, {"a", "b", "ab"}) to explore the rest of the string.
+4th Call: backtrack(4, {"a", "b", "ab"})
+Start from index 4 and try every possible substring:
+Substring s[4:5] = "c":
+Add "c" to seen.
+Call backtrack(5, {"a", "b", "ab", "c"}).
+5th Call: backtrack(5, {"a", "b", "ab", "c"})
+Start from index 5 and try every possible substring:
+Substring s[5:7] = "cc":
+Add "cc" to seen.
+Call backtrack(7, {"a", "b", "ab", "c", "cc"}).
+6th Call: backtrack(7, {"a", "b", "ab", "c", "cc"})
+We've reached the end of the string (start == len(s)), so we return 0.
+Backtracking:
+Now we start backtracking and propagate the results:
+
+The 5th call returns 1 (since "cc" is a valid unique split).
+The 4th call returns 2 (since "c" and "cc" are valid unique splits).
+The 3rd call returns 3 (since "ab", "c", and "cc" are valid unique splits).
+The 2nd call returns 4 (since "b", "ab", "c", and "cc" are valid unique splits).
+The 1st call returns 5 (since "a", "b", "ab", "c", and "cc" are valid unique splits).
+Final Result:
+The maximum number of unique substrings is 5, and one valid split for "ababccc" is:
+
+["a", "b", "ab", "c", "cc"].
