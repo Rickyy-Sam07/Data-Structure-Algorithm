@@ -12,3 +12,11 @@ ex: all(sub_expr)  // val are stroed in sub_expr
 >>We use Python’s any() function to check if at least one value is True.
 ex : any(sub_expr)
 
+>> in python we dont require to incrememnt i in loop as it increments itself by default (forward traversal)
+now if we want to traversal backward we can use start: stop :step   ,  ex -->  Option 1: Using range() for Reverse Traversal
+You can use range() with a negative step to go through the sequence in reverse:
+
+python code:
+ 
+for i in range(len(s) - 1, -1, -1):
+    # Access each character s[i] from the end to the beginning
