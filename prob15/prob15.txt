@@ -1,0 +1,72 @@
+class Solution:
+    def makeFancyString(self, s: str) -> str:
+This defines a class called Solution with a method makeFancyString that takes a string s as input and returns a modified version of it as output.
+python
+Copy code
+        result = []  # Result list to build the final string
+result is initialized as an empty list. It will be used to collect characters from the input string s that meet the criteria (not more than two consecutive characters).
+This list will store each character we want to keep, and we’ll later join it into a final string.
+python
+Copy code
+        count = 0  # Counter for consecutive characters
+count is initialized to 0. This variable will help track the number of consecutive occurrences of the same character.
+For each character in the string s, we’ll check how many times it appears consecutively.
+python
+Copy code
+        for i in range(len(s)):
+This starts a for loop that iterates over each character in the string s by index.
+i will go from 0 to len(s) - 1, representing each character’s position in s.
+python
+Copy code
+            if i > 0 and s[i] == s[i - 1]:
+This if condition checks two things:
+i > 0: Ensures we are not checking the first character, as there’s no previous character for the first character.
+s[i] == s[i - 1]: Checks if the current character s[i] is the same as the previous character s[i - 1].
+If both conditions are true, it means that the current character is the same as the last one in result, so it’s part of a sequence of consecutive identical characters.
+python
+Copy code
+                count += 1  # Increment count for consecutive characters
+If the previous condition is true, we increment count by 1. This means we have another occurrence in a consecutive sequence.
+python
+Copy code
+            else:
+                count = 1  # Reset count if it's a different character
+If the characters are not the same (or if it’s the first character), we reset count to 1 because we’re starting a new sequence with a different character.
+python
+Copy code
+            if count <= 2:
+                result.append(s[i])
+This condition checks if count is less than or equal to 2. If so, we add the current character s[i] to the result list.
+This ensures that we allow a maximum of two consecutive occurrences of any character. If count is greater than 2, we skip adding this character to result.
+python
+Copy code
+        return "".join(result)  # Join the result list into a final string
+After the loop completes, we use "".join(result) to combine all characters in result into a single string.
+This final string is returned as the output of the function.
+Example Walkthrough
+Suppose s = "aaabaaaa":
+
+Iteration 1 (i=0):
+
+s[i] is 'a'.
+count = 1.
+Append 'a' to result: result = ['a'].
+Iteration 2 (i=1):
+
+s[i] is 'a' (same as previous).
+count = 2.
+Append 'a' to result: result = ['a', 'a'].
+Iteration 3 (i=2):
+
+s[i] is 'a' (same as previous).
+count = 3.
+Since count > 2, skip appending this character.
+Iteration 4 (i=3):
+
+s[i] is 'b' (different from previous).
+Reset count = 1.
+Append 'b' to result: result = ['a', 'a', 'b'].
+Iterations 5-8 (i=4 to i=7):
+
+Repeat the above logic to add two 'a' characters from the remaining sequence.
+Final output: "aabaa".
