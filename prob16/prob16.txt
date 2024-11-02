@@ -1,0 +1,97 @@
+1. Class and Method Definition
+python
+Copy code
+class Solution:
+    def isCircularSentence(self, sentence: str) -> bool:
+Class: Solution is defined as a class, which can contain methods related to solving problems.
+Method: isCircularSentence is a method that takes a single argument sentence, which is expected to be a string. It returns a boolean value (True or False).
+2. Splitting the Sentence into Words
+python
+Copy code
+words = sentence.split()
+The split() method divides the sentence into a list of words based on whitespace.
+Example: For the input sentence = "banana apple", the result would be words = ['banana', 'apple'].
+3. Calculating the Number of Words
+python
+Copy code
+n = len(words)
+The len() function returns the number of elements in the words list.
+Example: If words = ['banana', 'apple'], then n would be 2.
+4. Checking Edge Cases
+python
+Copy code
+if n == 0:
+    return False
+elif n == 1:
+    return words[0][0] == words[0][-1]
+Empty Sentence Check: If n is 0, it means there are no words, so the function returns False.
+Single Word Check: If n is 1, it checks if the first letter is the same as the last letter of the single word (words[0][0] == words[0][-1]). If they match, it returns True, otherwise False.
+5. Looping Through Words to Check the Circular Condition
+python
+Copy code
+for i in range(n):
+    if words[i][-1] != words[(i + 1) % n][0]:
+        return False
+Looping: The loop iterates through each word in the list using the variable i, which represents the index of the current word.
+Circular Comparison: The key formula here is words[(i + 1) % n][0]:
+words[i][-1] accesses the last character of the current word.
+words[(i + 1) % n][0] accesses the first character of the next word.
+The expression (i + 1) % n ensures that when i reaches the last index, it wraps around to 0, creating a circular effect.
+Example:
+For words = ['banana', 'apple']:
+For i = 0: Check if words[0][-1] (last letter of "banana", which is a) is equal to words[1][0] (first letter of "apple", which is also a).
+For i = 1: Check if words[1][-1] (last letter of "apple", which is e) is equal to words[0][0] (first letter of "banana", which is b).
+If any comparison fails, it returns False.
+6. Final Return Statement
+python
+Copy code
+return True
+If all checks pass and the loop completes without returning False, the function returns True, indicating that the sentence is circular.
+Formula Explanation
+Indexing:
+words[i][-1]: This accesses the last character of the word at index i.
+words[(i + 1) % n][0]:
+(i + 1) % n: This calculates the next index while ensuring it wraps around to the beginning if i is the last index.
+[0]: This accesses the first character of the word at the calculated index.
+Example Walkthrough
+Let's see how this function works with a specific example:
+
+Input
+python
+Copy code
+sentence = "banana apple"
+Execution
+Splitting:
+
+words = ['banana', 'apple']
+n = 2
+Edge Case Check:
+
+n is not 0 and n is not 1, so it proceeds to the loop.
+Loop:
+
+Iteration 1 (i = 0):
+Check: Is words[0][-1] (a) equal to words[1][0] (a)? Yes, so continue.
+Iteration 2 (i = 1):
+Check: Is words[1][-1] (e) equal to words[0][0] (b)? No, so return False.
+Final Output: False
+
+Example of a Circular Sentence
+Input
+python
+Copy code
+sentence = "apple elephant"
+Execution
+Splitting:
+
+words = ['apple', 'elephant']
+n = 2
+Edge Case Check: Proceed to loop.
+
+Loop:
+
+Iteration 1 (i = 0):
+Check: Is words[0][-1] (e) equal to words[1][0] (e)? Yes, so continue.
+Iteration 2 (i = 1):
+Check: Is words[1][-1] (t) equal to words[0][0] (a)? No, return False.
+Final Output: False

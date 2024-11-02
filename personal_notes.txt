@@ -20,3 +20,8 @@ python code:
  
 for i in range(len(s) - 1, -1, -1):
     # Access each character s[i] from the end to the beginning
+
+
+>>> hum .split() use kar sakte for convert : "apple,banana,orange"  ---> words = ['apple', 'banana', 'orange']
+
+>>>words[i][-1]  yeh hum tab use karte hai jab : hum words ke every item ke har ek letter ko  use kare tab
