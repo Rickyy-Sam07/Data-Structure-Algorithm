@@ -25,3 +25,16 @@ for i in range(len(s) - 1, -1, -1):
 >>> hum .split() use kar sakte for convert : "apple,banana,orange"  ---> words = ['apple', 'banana', 'orange']
 
 >>>words[i][-1]  yeh hum tab use karte hai jab : hum words ke every item ke har ek letter ko  use kare tab
+
+>>>yeh wala hum tabhi use kar sakte hai jab hum koi substring kisi string mai hai ki nhi wo check kar rahe ho :
+if goal in out:
+            return True
+        else:
+            return False
+
+>>> aur yeh wala for array : a = [1, 2, 3, 4, 5]
+b = [2, 3, 5]
+
+
+
+

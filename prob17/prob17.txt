@@ -1,0 +1,55 @@
+Code Explanation
+python
+Copy code
+class Solution:
+    def rotateString(self, s: str, goal: str) -> bool:
+We define a method rotateString within the Solution class, which takes two parameters: s (the original string) and goal (the target string we want to check for rotation).
+Step 1: Length Check
+python
+Copy code
+        # Check if the lengths are different; if so, rotation is impossible
+        if len(s) != len(goal):
+            return False
+Purpose: If the lengths of s and goal are different, goal cannot be a rotation of s. For example, a rotation of "abc" would always have to be 3 characters long. So if s and goal have different lengths, we immediately return False.
+
+Example:
+
+If s = "abcde" and goal = "cdeab", both strings have a length of 5, so we proceed.
+If s = "abc" and goal = "abcd", they have different lengths, so the function will return False here.
+Step 2: Concatenate s with Itself
+python
+Copy code
+        # Concatenate s with itself
+        out = s + s
+Purpose: Concatenating s with itself (i.e., s + s) creates a new string that contains all possible rotations of s as substrings.
+
+How It Works:
+
+When you double the string, any rotation of s will appear as a substring within this doubled string.
+For example, if s = "abcde", then s + s = "abcdeabcde". This contains every possible rotation of s:
+"abcde" (the original string)
+"bcdea"
+"cdeab"
+"deabc"
+"eabcd"
+Example:
+
+If s = "abcde", then out = "abcdeabcde".
+Step 3: Check if goal is a Substring of out
+python
+Copy code
+        # Check if goal is a substring of the concatenated string
+        if goal in out:
+            return True
+        else:
+            return False
+Purpose: This line checks if goal is a substring within out (i.e., within s + s). If goal is a substring of out, then goal is a valid rotation of s, and we return True. Otherwise, we return False.
+
+Example:
+
+Example 1:
+If s = "abcde" and goal = "cdeab", then out = "abcdeabcde".
+We check if "cdeab" is in "abcdeabcde", which it is. So, the function returns True.
+Example 2:
+If s = "abcde" and goal = "abced", then out = "abcdeabcde".
+We check if "abced" is in "abcdeabcde", which it is not. So, the function returns False.
