@@ -1,0 +1,72 @@
+Example: "aaaaaaaaaaaaaabb"
+Let's apply this example to the code.
+
+comp = ""
+
+Initialize an empty string comp to store the result.
+This will eventually hold the compressed version of the input word.
+i = 0
+
+Initialize i, a pointer, to iterate through each character of the word. We start at index 0.
+while i < len(word):
+
+This while loop continues as long as i is within the bounds of word.
+First Iteration
+At i = 0, the character is 'a'.
+char = word[i]
+
+Assign char as the current character (word[0] = 'a').
+char is now 'a', which we’ll be counting in the next step.
+count = 0
+
+Initialize count to 0 to count consecutive occurrences of char (here, 'a').
+while i < len(word) and word[i] == char and count < 9:
+
+This inner while loop counts how many times the character 'a' appears consecutively, limited to a maximum of 9.
+
+For each iteration, count increases by 1, and i advances by 1.
+
+After nine iterations (from i = 0 to i = 9), count reaches 9, and i becomes 9. The loop stops since count < 9 condition fails.
+
+comp += f"{count}{char}"
+
+Append f"{count}{char}" to comp, which is "9a" after this step.
+Now, comp becomes "9a".
+Second Iteration
+The outer while loop repeats since i = 9, which is still less than len(word).
+char = word[i]
+
+char is set to the current character (word[9] = 'a').
+count = 0
+
+count is reset to 0 for counting this new set of 'a' characters.
+while i < len(word) and word[i] == char and count < 9:
+
+The inner while loop counts up to 9 consecutive occurrences of 'a'.
+Here, only 5 'a' characters are left (i = 9 to i = 14), so count becomes 5 and i becomes 14.
+comp += f"{count}{char}"
+
+Append f"{count}{char}" to comp, resulting in "5a".
+Now, comp becomes "9a5a".
+Third Iteration
+The outer while loop continues since i = 14.
+char = word[i]
+
+char is set to the current character (word[14] = 'b').
+count = 0
+
+count is reset to 0 to count this new character 'b'.
+while i < len(word) and word[i] == char and count < 9:
+
+The inner while loop counts up to 9 consecutive occurrences of 'b'.
+Here, only 2 'b' characters are left (i = 14 to i = 16), so count becomes 2 and i becomes 16.
+comp += f"{count}{char}"
+
+Append f"{count}{char}" to comp, resulting in "2b".
+Now, comp becomes "9a5a2b".
+return comp
+
+The while loop ends because i is now 16, which is equal to len(word).
+Return comp, which is "9a5a2b".
+Final Output
+The final compressed string for "aaaaaaaaaaaaaabb" is "9a5a2b"

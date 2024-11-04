@@ -34,6 +34,11 @@ if goal in out:
 
 >>> aur yeh wala for array : a = [1, 2, 3, 4, 5]
 b = [2, 3, 5]
+>>>The line:
+
+comp += f"{count}{char}"
+
+is a shorthand way of appending formatted text to the comp string.
 
 
 
