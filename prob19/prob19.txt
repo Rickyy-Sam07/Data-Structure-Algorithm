@@ -1,0 +1,4 @@
+very easy question : https://leetcode.com/problems/minimum-number-of-changes-to-make-binary-string-beautiful?envType=daily-question&envId=2024-11-05
+
+
+yaha se dekh le ek solution bhi post kiya hai maine 
