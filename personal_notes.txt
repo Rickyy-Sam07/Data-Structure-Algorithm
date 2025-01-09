@@ -41,5 +41,25 @@ comp += f"{count}{char}"
 is a shorthand way of appending formatted text to the comp string.
 
 
+>>startswith():
+The `startswith()` method in Python is a string method that checks if a string begins with a specified prefix. It returns `True` if the string starts with the prefix, and `False` otherwise. 
+
+### Syntax:
+```
+string.startswith(prefix[, start[, end]])
+```
+
+- **prefix**: The prefix to check.
+- **start** (optional): The starting position in the string to check from.
+- **end** (optional): The ending position in the string to check up to.
+
+### Example:
+```
+word = "apple"
+print(word.startswith("app"))  # True
+print(word.startswith("ple"))  # False
+```
+
+
 
 
