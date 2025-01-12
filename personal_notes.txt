@@ -60,6 +60,22 @@ print(word.startswith("app"))  # True
 print(word.startswith("ple"))  # False
 ```
 
+>> reverse : .reverse() or array[::-1]
+
+>> extend and append :
+append() is used when you want to add a single item to the list, whether it’s an integer, string, or even another list as one element.
+
+
+lst = [1, 2, 3]
+lst.append(4)  # [1, 2, 3, 4]
+lst.append([5, 6])  # [1, 2, 3, 4, [5, 6]]
+extend() is used when you want to add each item from an iterable to the list.
+
+
+lst = [1, 2, 3]
+lst.extend([4, 5])  # [1, 2, 3, 4, 5]
+lst.extend('abc')  # [1, 2, 3, 4, 5, 'a', 'b', 'c']
+
 
 
 

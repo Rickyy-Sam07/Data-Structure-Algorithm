@@ -1,0 +1,92 @@
+Step-by-Step Breakdown
+Initialization:
+
+res is an empty list that will eventually store the final result.
+x is an intermediate list that will store the zigzagged rows.
+Loop through the rows:
+
+The loop iterates through each row in the grid (the grid is a 2D list).
+Reversing odd-indexed rows:
+
+For each row where the index i is odd (i.e., the second, fourth, sixth rows, etc.), we reverse the row using slicing ([::-1]).
+The extend() method is used to append the entire reversed row to the list x.
+Keeping even-indexed rows unchanged:
+
+For rows where the index i is even (i.e., the first, third, fifth rows, etc.), we append the row to the list x as is.
+Selecting every second element:
+
+Once all rows are processed and stored in x, we select every second element using slicing (x[::2]). This creates the final list res.
+Example 1:
+Input:
+python
+Copy code
+grid = [
+    [1, 2, 3],
+    [4, 5, 6],
+    [7, 8, 9]
+]
+Step-by-step execution:
+First row (index 0, even): [1, 2, 3] (unchanged)
+
+x = [1, 2, 3]
+Second row (index 1, odd): [4, 5, 6] (reversed)
+
+Reversed: [6, 5, 4]
+x = [1, 2, 3, 6, 5, 4]
+Third row (index 2, even): [7, 8, 9] (unchanged)
+
+x = [1, 2, 3, 6, 5, 4, 7, 8, 9]
+Select every second element:
+
+x[::2] = [1, 3, 5, 7, 9]
+Output:
+python
+Copy code
+[1, 3, 5, 7, 9]
+Example 2:
+Input:
+python
+Copy code
+grid = [
+    [1, 2, 3],
+    [4, 5, 6],
+    [7, 8, 9],
+    [10, 11, 12]
+]
+Step-by-step execution:
+First row (index 0, even): [1, 2, 3] (unchanged)
+
+x = [1, 2, 3]
+Second row (index 1, odd): [4, 5, 6] (reversed)
+
+Reversed: [6, 5, 4]
+x = [1, 2, 3, 6, 5, 4]
+Third row (index 2, even): [7, 8, 9] (unchanged)
+
+x = [1, 2, 3, 6, 5, 4, 7, 8, 9]
+Fourth row (index 3, odd): [10, 11, 12] (reversed)
+
+Reversed: [12, 11, 10]
+x = [1, 2, 3, 6, 5, 4, 7, 8, 9, 12, 11, 10]
+Select every second element:
+
+x[::2] = [1, 3, 5, 7, 9, 11]
+Output:
+python
+Copy code
+[1, 3, 5, 7, 9, 11]
+Explanation of Key Concepts:
+grid[i][::-1]:
+
+This slices the row at index i and reverses it. The [::-1] syntax creates a reversed copy of the list.
+x.extend():
+
+This method appends each element of the argument (the row) to the list x. If the row is reversed, it adds the reversed elements to x.
+x[::2]:
+
+This slices the list x to return every second element, starting from the first element (index 0).
+Time and Space Complexity:
+Time Complexity:
+O(m * n), where m is the number of rows and n is the number of columns in the grid. We loop through all the elements in the grid once, then perform an operation (slicing, reversing, or extending) on each row.
+Space Complexity:
+O(m * n), because we create a list x that stores all elements from the grid.
