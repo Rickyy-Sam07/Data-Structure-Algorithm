@@ -1,0 +1,219 @@
+🥷🔔solution 1 ::
+### Code Explanation
+
+This Python code defines a class `Solution` with a method `prefixCount` that counts the number of words in a list that start with a given prefix.
+
+#### Code Breakdown:
+1. **Import Statement**:
+   ```python
+   from typing import List
+   ```
+   - The `List` type hint is imported from Python's `typing` module to specify that the `words` parameter is a list of strings (`List[str]`).
+
+2. **Class Definition**:
+   ```python
+   class Solution:
+   ```
+   - Defines a class `Solution`. This is a common structure used in competitive programming and coding platforms like LeetCode.
+
+3. **Method Definition**:
+   ```python
+   def prefixCount(self, words: List[str], pref: str) -> int:
+   ```
+   - `prefixCount` is a method that:
+     - Takes two arguments:
+       - `words`: A list of strings.
+       - `pref`: A string representing the prefix to search for.
+     - Returns an integer (`int`), which is the count of words in the list that start with the prefix `pref`.
+
+4. **Variable Initialization**:
+   ```python
+   count = 0
+   ```
+   - Initializes a variable `count` to `0`. This will keep track of the number of words that start with the prefix.
+
+5. **Iterating Through Words**:
+   ```python
+   for word in words:
+   ```
+   - Loops through each word in the `words` list.
+
+6. **Checking the Prefix**:
+   ```python
+   if word.startswith(pref):
+   ```
+   - The `startswith(pref)` method checks if the string `word` begins with the prefix `pref`.
+   - Returns `True` if the word starts with the prefix, otherwise `False`.
+
+7. **Incrementing the Counter**:
+   ```python
+   count += 1
+   ```
+   - If the condition `word.startswith(pref)` is `True`, the `count` variable is incremented by 1.
+
+8. **Return Statement**:
+   ```python
+   return count
+   ```
+   - After the loop completes, the method returns the total count of words that start with the prefix.
+
+---
+
+### Example Usage:
+```python
+solution = Solution()
+words = ["apple", "appetizer", "banana", "application"]
+pref = "app"
+print(solution.prefixCount(words, pref))  # Output: 3
+```
+
+### Explanation of the Example:
+- `words` = `["apple", "appetizer", "banana", "application"]`
+- `pref` = `"app"`
+
+The method iterates through the `words` list:
+1. `"apple"` starts with `"app"`, so `count` becomes `1`.
+2. `"appetizer"` starts with `"app"`, so `count` becomes `2`.
+3. `"banana"` does not start with `"app"`, so `count` remains `2`.
+4. `"application"` starts with `"app"`, so `count` becomes `3`.
+
+Finally, the method returns `3`.
+
+
+
+🔔🥷🥷Soltuion 2 ::
+### Code Explanation
+
+This code defines a method `prefixCount` in the `Solution` class that counts how many words in a list start with a given prefix. It uses nested loops to manually check if the prefix matches the start of each word.
+
+---
+
+### Code Breakdown:
+
+1. **Import Statement**:
+   ```python
+   from typing import List
+   ```
+   - The `List` type hint is imported from Python's `typing` module to specify that the `words` parameter is a list of strings (`List[str]`).
+
+2. **Class Definition**:
+   ```python
+   class Solution:
+   ```
+   - Defines the `Solution` class, a common structure used in competitive programming.
+
+3. **Method Definition**:
+   ```python
+   def prefixCount(self, words: List[str], pref: str) -> int:
+   ```
+   - `prefixCount` is a method that:
+     - Takes two arguments:
+       - `words`: A list of strings.
+       - `pref`: A string representing the prefix to search for.
+     - Returns an integer, which is the count of words that start with the prefix.
+
+4. **Variable Initialization**:
+   ```python
+   count = 0
+   ```
+   - Initializes `count` to `0`. This variable tracks how many words in the list start with the prefix.
+
+5. **Outer Loop**:
+   ```python
+   for word in words:
+   ```
+   - Iterates through each word in the `words` list.
+
+6. **Assume Match**:
+   ```python
+   match = True
+   ```
+   - Initially assumes that the current word matches the prefix.
+
+7. **Inner Loop (Character-by-Character Comparison)**:
+   ```python
+   for i in range(len(pref)):
+   ```
+   - Iterates through the indices of the prefix (`pref`).
+   - For each index `i`:
+     - Compare the character at `i` in `pref` and the character at `i` in `word`.
+
+8. **Conditions for Mismatch**:
+   ```python
+   if i >= len(word) or word[i] != pref[i]:
+   ```
+   - Two conditions are checked:
+     - If `i` is greater than or equal to the length of the word (`len(word)`), it means the word is shorter than the prefix, so it cannot match.
+     - If `word[i]` is not equal to `pref[i]`, there is a mismatch between the characters.
+   - If either condition is true, the word does not match the prefix:
+     ```python
+     match = False
+     break
+     ```
+     - Set `match` to `False` and break out of the inner loop to stop further comparisons.
+
+9. **Increment Counter**:
+   ```python
+   if match:
+       count += 1
+   ```
+   - After the inner loop, if `match` is still `True`, it means the word starts with the prefix. Increment `count`.
+
+10. **Return the Count**:
+    ```python
+    return count
+    ```
+    - Return the final count after checking all words.
+
+---
+
+### Example Usage:
+```python
+solution = Solution()
+words = ["apple", "appetizer", "banana", "application"]
+pref = "app"
+print(solution.prefixCount(words, pref))  # Output: 3
+```
+
+---
+
+### Example Walkthrough:
+#### Inputs:
+- `words = ["apple", "appetizer", "banana", "application"]`
+- `pref = "app"`
+
+#### Execution:
+1. **Outer Loop**: `word = "apple"`
+   - `match = True`
+   - Inner loop compares:
+     - `pref[0] == word[0]` → `"a" == "a"` → `True`
+     - `pref[1] == word[1]` → `"p" == "p"` → `True`
+     - `pref[2] == word[2]` → `"p" == "p"` → `True`
+   - No mismatches. `count = 1`.
+
+2. **Outer Loop**: `word = "appetizer"`
+   - `match = True`
+   - Inner loop compares:
+     - `pref[0] == word[0]` → `"a" == "a"` → `True`
+     - `pref[1] == word[1]` → `"p" == "p"` → `True`
+     - `pref[2] == word[2]` → `"p" == "p"` → `True`
+   - No mismatches. `count = 2`.
+
+3. **Outer Loop**: `word = "banana"`
+   - `match = True`
+   - Inner loop compares:
+     - `pref[0] == word[0]` → `"a" != "b"` → Mismatch.
+   - `match = False`. Skip incrementing `count`.
+
+4. **Outer Loop**: `word = "application"`
+   - `match = True`
+   - Inner loop compares:
+     - `pref[0] == word[0]` → `"a" == "a"` → `True`
+     - `pref[1] == word[1]` → `"p" == "p"` → `True`
+     - `pref[2] == word[2]` → `"p" == "p"` → `True`
+   - No mismatches. `count = 3`.
+
+---
+
+### Output:
+The final result is `3`, as three words in the list start with `"app"`.

@@ -1,0 +1,98 @@
+Function Explanation:
+The function computes the prefix common array for two input arrays A and B.
+
+Key Data Structures:
+
+seen_A and seen_B: Sets that keep track of elements encountered so far in A and B, respectively.
+common: A set that stores elements found in both seen_A and seen_B (i.e., common elements up to the current index).
+Result:
+
+At every index i, the function appends the size of the common set (i.e., the count of numbers common in A and B up to index i) to the result list.
+Example 1: A = [1, 3, 2, 4], B = [3, 1, 2, 4]
+Initialization:
+
+seen_A = set()
+seen_B = set()
+common = set()
+result = []
+Iteration Steps:
+
+Index i = 0:
+
+Add A[0] = 1 to seen_A: seen_A = {1}.
+Add B[0] = 3 to seen_B: seen_B = {3}.
+A[0] = 1 is not in seen_B.
+B[0] = 3 is not in seen_A.
+common = {} (no common elements yet).
+Append len(common) = 0 to result: result = [0].
+Index i = 1:
+
+Add A[1] = 3 to seen_A: seen_A = {1, 3}.
+Add B[1] = 1 to seen_B: seen_B = {1, 3}.
+A[1] = 3 is in seen_B, so add 3 to common.
+B[1] = 1 is in seen_A, so add 1 to common.
+common = {1, 3}.
+Append len(common) = 2 to result: result = [0, 2].
+Index i = 2:
+
+Add A[2] = 2 to seen_A: seen_A = {1, 2, 3}.
+Add B[2] = 2 to seen_B: seen_B = {1, 2, 3}.
+A[2] = 2 is in seen_B, so add 2 to common.
+B[2] = 2 is in seen_A (already added to common).
+common = {1, 2, 3}.
+Append len(common) = 3 to result: result = [0, 2, 3].
+Index i = 3:
+
+Add A[3] = 4 to seen_A: seen_A = {1, 2, 3, 4}.
+Add B[3] = 4 to seen_B: seen_B = {1, 2, 3, 4}.
+A[3] = 4 is in seen_B, so add 4 to common.
+B[3] = 4 is in seen_A (already added to common).
+common = {1, 2, 3, 4}.
+Append len(common) = 4 to result: result = [0, 2, 3, 4].
+Final Result:
+[0, 2, 3, 4]
+
+Example 2: A = [2, 3, 1], B = [3, 1, 2]
+Initialization:
+
+seen_A = set()
+seen_B = set()
+common = set()
+result = []
+Iteration Steps:
+
+Index i = 0:
+
+Add A[0] = 2 to seen_A: seen_A = {2}.
+Add B[0] = 3 to seen_B: seen_B = {3}.
+A[0] = 2 is not in seen_B.
+B[0] = 3 is not in seen_A.
+common = {}.
+Append len(common) = 0 to result: result = [0].
+Index i = 1:
+
+Add A[1] = 3 to seen_A: seen_A = {2, 3}.
+Add B[1] = 1 to seen_B: seen_B = {1, 3}.
+A[1] = 3 is in seen_B, so add 3 to common.
+B[1] = 1 is not in seen_A.
+common = {3}.
+Append len(common) = 1 to result: result = [0, 1].
+Index i = 2:
+
+Add A[2] = 1 to seen_A: seen_A = {1, 2, 3}.
+Add B[2] = 2 to seen_B: seen_B = {1, 2, 3}.
+A[2] = 1 is in seen_B, so add 1 to common.
+B[2] = 2 is in seen_A, so add 2 to common.
+common = {1, 2, 3}.
+Append len(common) = 3 to result: result = [0, 1, 3].
+Final Result:
+[0, 1, 3]
+
+Complexity Analysis:
+Time Complexity: O(n)
+
+Iterating through A and B once.
+O(1) operations for adding to a set and checking membership.
+Space Complexity: O(n)
+
+Space for seen_A, seen_B, and common.

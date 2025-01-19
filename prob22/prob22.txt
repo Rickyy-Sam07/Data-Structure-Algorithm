@@ -1,0 +1,1 @@
+iss problem mai bas itna samjha ki odd ho toh +1 karna but agar even hoga toh +2 karna haii as  , odd mai ek bach jayeg aafert pairing but in even there will be no leftover.

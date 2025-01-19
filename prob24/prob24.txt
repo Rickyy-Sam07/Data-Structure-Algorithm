@@ -1,0 +1,152 @@
+
+### 1. **`from typing import List`**
+- This line imports the `List` type hint from the `typing` module.
+- It allows you to specify that a function or method expects and returns a list, helping clarify the function's intent and making the code easier to understand.
+
+---
+
+### 2. **Function Definition**
+```python
+class Solution:
+    def threeSum(self, nums: List[int]) -> List[List[int]]:
+```
+- The function `threeSum` is defined within the `Solution` class.
+- **Input:** `nums: List[int]` indicates that the function expects a list of integers as input.
+- **Output:** `List[List[int]]` indicates that the function returns a list of lists of integers (the triplets that sum to zero).
+
+---
+
+### 3. **Sorting the Array**
+```python
+nums.sort()
+result = []
+```
+- **Why Sorting?**
+  Sorting the input array simplifies the logic for finding unique triplets because it allows us to use a two-pointer technique efficiently and skip duplicate values.
+- **Result List:** `result` is initialized as an empty list to store the triplets that sum to zero.
+
+---
+
+### 4. **Iterating Through the Array**
+```python
+for i in range(len(nums) - 2):
+```
+- The `for` loop iterates over the indices of the sorted array. It stops at `len(nums) - 2` because we need at least three numbers to form a triplet.
+
+---
+
+### 5. **Skipping Duplicates for `nums[i]`**
+```python
+if i > 0 and nums[i] == nums[i - 1]:
+    continue
+```
+- **Purpose:** To avoid duplicate triplets, we skip processing the current number if it is the same as the previous number (`nums[i] == nums[i - 1]`).
+
+---
+
+### 6. **Two-Pointer Technique**
+```python
+left, right = i + 1, len(nums) - 1
+```
+- After selecting `nums[i]` as the first number in the triplet, use two pointers:
+  - `left`: Starts at the index immediately after `i`.
+  - `right`: Starts at the last index of the array.
+
+---
+
+### 7. **Finding Triplets**
+```python
+while left < right:
+    current_sum = nums[i] + nums[left] + nums[right]
+```
+- Calculate the **current sum** of the triplet (`nums[i]`, `nums[left]`, and `nums[right]`).
+
+#### **Case 1: Sum is Zero**
+```python
+if current_sum == 0:
+    result.append([nums[i], nums[left], nums[right]])
+```
+- If the sum of the triplet is zero, append it to the `result` list.
+
+#### **Skip Duplicates for `nums[left]` and `nums[right]`**
+```python
+while left < right and nums[left] == nums[left + 1]:
+    left += 1
+while left < right and nums[right] == nums[right - 1]:
+    right -= 1
+```
+- Move the `left` and `right` pointers past duplicate values to avoid duplicate triplets.
+
+#### **Move Both Pointers**
+```python
+left += 1
+right -= 1
+```
+- After finding a valid triplet, move both pointers inward to search for new triplets.
+
+---
+
+### 8. **Case 2: Sum is Less Than Zero**
+```python
+elif current_sum < 0:
+    left += 1
+```
+- If the sum is less than zero, move the `left` pointer to the right to increase the sum (because the array is sorted).
+
+---
+
+### 9. **Case 3: Sum is Greater Than Zero**
+```python
+else:
+    right -= 1
+```
+- If the sum is greater than zero, move the `right` pointer to the left to decrease the sum.
+
+---
+
+### 10. **Return Result**
+```python
+return result
+```
+- After the loop completes, return the `result` list containing all unique triplets.
+
+---
+
+### Example Execution
+
+#### Input:
+```python
+nums = [-1, 0, 1, 2, -1, -4]
+```
+
+#### Execution Steps:
+1. **Sorting:** `nums` becomes `[-4, -1, -1, 0, 1, 2]`.
+2. **First Iteration (`i = 0`):**
+   - `nums[i] = -4`
+   - Left (`left = 1`) and Right (`right = 5`).
+   - No triplets found with `nums[i] = -4`.
+3. **Second Iteration (`i = 1`):**
+   - `nums[i] = -1`
+   - Triplets found: `[-1, -1, 2]` and `[-1, 0, 1]`.
+4. **Skipping Duplicates (`i = 2`):**
+   - `nums[i] = -1` (duplicate), skip.
+5. **Third Iteration (`i = 3`):**
+   - `nums[i] = 0`
+   - No additional triplets found.
+
+#### Output:
+```python
+[[-1, -1, 2], [-1, 0, 1]]
+```
+
+---
+
+### Complexity:
+1. **Time Complexity:**
+   - Sorting the array: O(n log n).
+   - Two-pointer traversal: O(n²) in the worst case.
+   - Overall: **O(n²)**.
+2. **Space Complexity:**
+   - Sorting takes O(n) space if in-place sorting is allowed.
+   - Otherwise, no additional space is used: **O(1)** (excluding the result).
+!
