@@ -1,0 +1,105 @@
+Here’s the simplified step-by-step explanation of how to solve **2661. First Completely Painted Row or Column** with an example:
+
+---
+
+### Problem Statement
+We are given:
+1. `arr`: A 1D array of integers indicating the painting order.
+2. `mat`: A 2D matrix containing integers. Each cell of the matrix corresponds to an integer in `arr`.
+
+**Goal**: Find the smallest index \( i \) in `arr` where a row or column in the matrix becomes fully painted.
+
+---
+
+### Example Input
+- \( arr = [1, 3, 4, 2] \)
+- \( mat = [[1, 4], [2, 3]] \)
+
+---
+
+### Step-by-Step Solution
+
+#### Step 1: Understand the Matrix Layout
+The matrix `mat` is:
+```
+mat = [[1, 4],
+       [2, 3]]
+```
+For example:
+- \( mat[0][0] = 1 \)
+- \( mat[0][1] = 4 \)
+- \( mat[1][0] = 2 \)
+- \( mat[1][1] = 3 \)
+
+#### Step 2: Create a Mapping for Matrix Values
+Create a `position_map` to quickly find the position of any number in the matrix. This maps each number in `mat` to its row and column index:
+```
+position_map = {
+    1: (0, 0),  # 1 is in row 0, column 0
+    4: (0, 1),  # 4 is in row 0, column 1
+    2: (1, 0),  # 2 is in row 1, column 0
+    3: (1, 1)   # 3 is in row 1, column 1
+}
+```
+
+#### Step 3: Initialize Counters
+To track how many cells are painted in each row and column:
+- `row_count`: Tracks painted cells in rows, initialized to 0 for each row.
+- `col_count`: Tracks painted cells in columns, initialized to 0 for each column.
+For \( m = 2 \) rows and \( n = 2 \) columns:
+```
+row_count = [0, 0]  # Tracks painted cells in rows
+col_count = [0, 0]  # Tracks painted cells in columns
+```
+
+#### Step 4: Simulate the Painting Process
+Process each integer in `arr`, painting the corresponding cell in the matrix and updating the counters.
+
+1. **Paint `arr[0] = 1`**:
+   - From `position_map`, \( 1 \) is at \( (0, 0) \).
+   - Increment the counters for row 0 and column 0:
+     ```
+     row_count = [1, 0]
+     col_count = [1, 0]
+     ```
+   - Neither row 0 nor column 0 is fully painted. Move to the next number.
+
+2. **Paint `arr[1] = 3`**:
+   - From `position_map`, \( 3 \) is at \( (1, 1) \).
+   - Increment the counters for row 1 and column 1:
+     ```
+     row_count = [1, 1]
+     col_count = [1, 1]
+     ```
+   - Neither row 1 nor column 1 is fully painted. Move to the next number.
+
+3. **Paint `arr[2] = 4`**:
+   - From `position_map`, \( 4 \) is at \( (0, 1) \).
+   - Increment the counters for row 0 and column 1:
+     ```
+     row_count = [2, 1]
+     col_count = [1, 2]
+     ```
+   - Row 0 is fully painted because \( row_count[0] == n = 2 \). 
+
+Return the current index \( i = 2 \).
+
+---
+
+### Step 5: Return the Result
+The answer is \( i = 2 \), as row 0 becomes fully painted when \( arr[2] = 4 \) is processed.
+
+---
+
+### Complexity Analysis
+1. **Time Complexity**:
+   - Creating the `position_map`: \( O(m \times n) \).
+   - Processing `arr`: \( O(m \times n) \).
+   - Total: \( O(m \times n) \).
+
+2. **Space Complexity**:
+   - `position_map`: \( O(m \times n) \).
+   - `row_count` and `col_count`: \( O(m + n) \).
+   - Total: \( O(m \times n) \).
+
+This approach is efficient and works well for the given constraints.
