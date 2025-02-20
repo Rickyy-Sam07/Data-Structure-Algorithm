@@ -1,0 +1,11 @@
+so basically here we are using a concep  of diagonal costructor method which says as follows :
+
+Diagonal Construction Method
+The idea is to construct a binary string by choosing the opposite bit of the i-th character of the i-th string. 
+This guarantees that the generated string will differ from every input string at least in one position.
+
+Algorithm Steps:
+Initialize an empty result string.
+Iterate through each string in nums using the index i.
+For each index i, if the i-th character of nums[i] is '0', add '1' to the result string, and vice-versa.
+Return the constructed string.
