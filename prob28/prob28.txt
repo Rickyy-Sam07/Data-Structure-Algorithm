@@ -1,0 +1,57 @@
+You have an infinite 2D grid where each unit cell is initially uncolored. You need to color the cells following these rules:
+
+At the first minute, you can color any arbitrary unit cell blue.
+Every minute after that, every uncolored cell that is adjacent (touching) to a blue cell also turns blue.
+Observing the Pattern:
+Let's manually simulate for small values of n:
+
+Step-wise Expansion of Colored Cells
+n = 1 → We color 1 cell.
+
+Total colored cells = 1
+n = 2 → The 4 neighboring cells around it get colored.
+
+Total colored cells = 5 (1 original + 4 new)
+n = 3 → New cells get colored around the outer boundary.
+
+Total colored cells = 13
+The pattern follows an expanding diamond shape.
+
+Finding a Formula:
+The pattern grows as follows:
+
+n = 1 → 1
+n = 2 → 5
+n = 3 → 13
+n = 4 → 25
+Observing closely, the growth follows this formula:
+
+Total colored cells = 1 + 4 × (sum of first (n - 1) natural numbers)
+
+Using the formula for the sum of the first (n-1) natural numbers:
+
+S = ((n - 1) × n) / 2
+
+So, the final formula simplifies to:
+
+Colored cells = 1 + 4 × ((n - 1) × n) / 2
+
+= 1 + 2(n - 1) × n
+
+= 2n(n - 1) + 1
+
+Final Formula
+Colored cells = 2n(n - 1) + 1
+
+Example Calculation:
+n = 1: 2(1)(0) + 1 = 1 ✅
+n = 2: 2(2)(1) + 1 = 5 ✅
+n = 3: 2(3)(2) + 1 = 13 ✅
+n = 4: 2(4)(3) + 1 = 25 ✅
+Constraints Analysis
+Given 1 ≤ n ≤ 100000, the formula runs in O(1) time, which is very efficient.
+
+
+
+approach : 
+first write some of the initial input values output then try to take out a formula out of it 
