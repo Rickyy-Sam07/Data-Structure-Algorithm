@@ -77,5 +77,18 @@ lst.extend([4, 5])  # [1, 2, 3, 4, 5]
 lst.extend('abc')  # [1, 2, 3, 4, 5, 'a', 'b', 'c']
 
 
+>> class Solution:
+    def addBinary(self, a: str, b: str) -> str:
+        result = bin(int(a,2) + int(b,2))[2:] #int(a,2) converts binary base2 to int
+
+        return result
+        
+        '''
+        to add two binary string to other binary ex: Input: a = "11", b = "1"
+                                                                Output: "100"
+        '''
+
+
+
 
 
